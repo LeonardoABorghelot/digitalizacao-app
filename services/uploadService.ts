@@ -34,7 +34,7 @@ export const uploadImagem = async ({
     uri: fileUri,
     name: fileName,
     type: 'image/jpeg',
-  } as unknown as Blob);
+  }as any);
 
   formData.append('cd_vd', cd_vd.toString());
   formData.append('nr_ecf', nr_ecf.toString());
