@@ -4,16 +4,15 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
   FlatList,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { RootStackParamList } from '../navigation/types';
 import { buscarVendas } from '../services/vendaService';
+import styles from './VendaListScreen.styles';
 
 type Venda = {
   cd_vd: number;
@@ -45,31 +44,39 @@ const VendaListScreen = () => {
     }
   };
 
-const renderItem = ({ item }: { item: Venda }) => (
-  <TouchableOpacity
-    style={styles.item}
-    onPress={() =>
-      navigation.navigate('Camera', {
-        cd_vd: item.cd_vd,
-        nr_ecf: item.nr_ecf,
-        dt_vd: item.dt_vd,
-      })
-}
-  >
-    <Text style={styles.codigo}>Venda {item.cd_vd}</Text>
-    <Text style={styles.data}>Data: {item.dt_vd}</Text>
-    <Text>ECF: {item.nr_ecf}</Text>
-    <Text>Autorização: {item.nr_autorizacao}</Text>
-    <Text>Imagem: {item.possui_imagem ? '✔️ Sim' : '❌ Não'}</Text>
-  </TouchableOpacity>
-);
+const renderItem = ({ item }: { item: Venda }) => {
+  const itemStyle = [
+    styles.item,
+    item.possui_imagem && styles.itemComImagem
+  ];
+  return (
+    <TouchableOpacity
+      style={itemStyle}
+      onPress={() =>
+        navigation.navigate('Camera', {
+          cd_vd: item.cd_vd,
+          nr_ecf: item.nr_ecf,
+          dt_vd: item.dt_vd,
+        })
+      }
+    >
+      <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
+      <Text style={styles.data}>Data: {item.dt_vd}</Text>
+      <Text>Venda: {item.cd_vd}</Text>
+      <Text>Autorização: {item.nr_autorizacao}</Text>
+      <Text style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}>
+        Imagem: {item.possui_imagem ? '✔️ Sim' : '❌ Não'}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Selecione a data da venda:</Text>
 
       <TouchableOpacity onPress={() => setShowPicker(true)} style={styles.dateBox}>
-        <Text>{dataVenda.toLocaleDateString()}</Text>
+        <Text style={{fontWeight: 'bold', fontSize: 16}}>{dataVenda.toLocaleDateString()}</Text>
       </TouchableOpacity>
 
       {showPicker && (
@@ -84,7 +91,10 @@ const renderItem = ({ item }: { item: Venda }) => (
         />
       )}
 
-      <Button title="Buscar vendas" onPress={buscar} />
+      {/* <Button title="Buscar vendas" onPress={buscar} /> */}
+      <TouchableOpacity style={styles.botaoBuscar} onPress={buscar}>
+        <Text style={styles.textoBotaoBuscar}>Buscar vendas</Text>
+      </TouchableOpacity>
       {loading && <ActivityIndicator size="large" style={{ marginTop: 20 }} />}
 
       <FlatList
@@ -100,23 +110,3 @@ const renderItem = ({ item }: { item: Venda }) => (
 };
 
 export default VendaListScreen;
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  label: { fontSize: 16, marginBottom: 8 },
-  dateBox: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 5,
-  },
-  item: {
-    backgroundColor: '#f2f2f2',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 12,
-  },
-  codigo: { fontWeight: 'bold', fontSize: 16 },
-  data: { color: '#777' },
-});

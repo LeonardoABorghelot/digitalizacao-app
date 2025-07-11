@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { RootStackParamList } from '../navigation/types';
 import { login } from '../services/authService';
 import { storeToken } from '../utils/authStorage';
@@ -39,7 +39,10 @@ const handleLogin = async () => {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Entrar" onPress={handleLogin} />
+      {/* <Button title="Entrar" onPress={handleLogin} /> */}
+      <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
+        <Text style={styles.textoBotaoEntrar}>Entrar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -49,7 +52,25 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
   input: {
-    borderWidth: 1, borderColor: '#ccc', padding: 10,
+    borderWidth: 1, borderColor: '#ccc', padding: 10, 
     marginBottom: 12, borderRadius: 5
+  },
+  botaoEntrar: {
+    backgroundColor: '#145A32',
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  textoBotaoEntrar: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    letterSpacing: 1,
   },
 });
