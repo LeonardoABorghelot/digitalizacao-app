@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Platform,
   Text,
@@ -49,16 +50,26 @@ const renderItem = ({ item }: { item: Venda }) => {
     styles.item,
     item.possui_imagem && styles.itemComImagem
   ];
+
+  const handlePress = () => {
+    if (item.possui_imagem) {
+      Alert.alert(
+        'Venda já digitalizada',
+        'Esta venda já possui imagens digitalizadas.'
+      );
+    } else {
+      navigation.navigate('Camera', {
+        cd_vd: item.cd_vd,
+        nr_ecf: item.nr_ecf,
+        dt_vd: item.dt_vd,
+      });
+    }
+  };
+
   return (
     <TouchableOpacity
       style={itemStyle}
-      onPress={() =>
-        navigation.navigate('Camera', {
-          cd_vd: item.cd_vd,
-          nr_ecf: item.nr_ecf,
-          dt_vd: item.dt_vd,
-        })
-      }
+      onPress={handlePress}
     >
       <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
       <Text style={styles.data}>Data: {item.dt_vd}</Text>
