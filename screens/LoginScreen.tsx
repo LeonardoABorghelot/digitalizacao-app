@@ -1,76 +1,82 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from "react";
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Button, Input } from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { RootStackParamList } from '../navigation/types';
 import { login } from '../services/authService';
 import { storeToken } from '../utils/authStorage';
-
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+import { styles } from './LoginScreenStyles';
 
 const LoginScreen = () => {
   const [cdFun, setCdFun] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [secure, setSecure] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Login'>>();
+  const passwordRef = useRef<any>(null);
 
-const handleLogin = async () => {
-  try {
-    const token = await login(cdFun, password);
-    await storeToken(token);
-    navigation.navigate('Vendas');
-  } catch (error) {
-    Alert.alert('Erro', 'Código ou senha inválidos');
-  }
-};
+  const handleLogin = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const token = await login(cdFun, password);
+      await storeToken(token);
+      navigation.navigate('Vendas');
+    } catch (error) {
+      setError('Código ou senha inválidos');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="Código do Funcionário"
-        value={cdFun}
-        onChangeText={setCdFun}
-        keyboardType="numeric"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Senha"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      {/* <Button title="Entrar" onPress={handleLogin} /> */}
-      <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
-        <Text style={styles.textoBotaoEntrar}>Entrar</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.card}>
+        {error !== '' && <Text style={styles.message}>{error}</Text>}
+        <Input
+          placeholder="Código do Funcionário"
+          keyboardType="numeric"
+          leftIcon={<Icon name="user-alt" size={20} color="black" style={styles.icon} />}
+          value={cdFun}
+          onChangeText={setCdFun}
+          autoCapitalize="none"
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current.focus()}
+          disabled={loading}
+        />
+        <Input
+          ref={passwordRef}
+          placeholder="Senha"
+          leftIcon={<Icon name="lock" size={20} color="black" style={styles.icon} />}
+          rightIcon={
+            <TouchableOpacity onPress={() => setSecure(!secure)}>
+              <Icon name={secure ? 'eye-slash' : 'eye'} size={19} color="black" />
+            </TouchableOpacity>
+          }
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={secure}
+          autoCapitalize="none"
+          disabled={loading}
+        />
+        <Button
+          buttonStyle={styles.button}
+          titleStyle={styles.buttonText}
+          onPress={handleLogin}
+          title="Entrar"
+          loading={loading}
+          disabled={loading}
+        />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  input: {
-    borderWidth: 1, borderColor: '#ccc', padding: 10, 
-    marginBottom: 12, borderRadius: 5
-  },
-  botaoEntrar: {
-    backgroundColor: '#145A32',
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.10,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  textoBotaoEntrar: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-    letterSpacing: 1,
-  },
-});
