@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   textoVerde: { color: '#388e3c', fontWeight: 'bold' },
   textoVermelho: { color: '#d32f2f', fontWeight: 'bold' },
   botaoBuscar: {
-    backgroundColor: '#145A32',
+    backgroundColor: '#0EB200',
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: 'center',

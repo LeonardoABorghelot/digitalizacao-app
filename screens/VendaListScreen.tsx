@@ -55,7 +55,7 @@ const renderItem = ({ item }: { item: Venda }) => {
     if (item.possui_imagem) {
       Alert.alert(
         'Venda já digitalizada',
-        'Esta venda já possui imagens digitalizadas.'
+        'Esta venda já possui imagens digitalizadas. Em caso de erro, contate o financeiro a receber.'
       );
     } else {
       navigation.navigate('Camera', {
