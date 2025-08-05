@@ -15,6 +15,5 @@ export const buscarVendas = async (dt_vd: string) => {
       },
     }
   );
-  console.log('Resposta da API:', res.data);
   return res.data.data; 
 };

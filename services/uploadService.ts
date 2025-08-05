@@ -1,9 +1,6 @@
 import { API_URL } from '@env';
 import { getToken } from '../utils/authStorage';
 
-console.log('API_URL:', API_URL);
-
-
 type UploadParams = {
   fileUri: string;
   fileName: string;
@@ -20,8 +17,6 @@ export const uploadImagem = async ({
   dt_vd,
 }: UploadParams): Promise<boolean> => {
   const token = await getToken();
-
-  console.log('TOKEN:', token);
 
   if (!token) {
     console.error('Token não encontrado!');
@@ -54,7 +49,6 @@ export const uploadImagem = async ({
     const text = await res.text();
     try {
       const json = JSON.parse(text);
-      console.log('Upload imagem:', json);
       return res.ok;
     } catch (e) {
       console.error('Resposta não é JSON:', text);

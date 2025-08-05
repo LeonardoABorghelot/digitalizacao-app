@@ -8,7 +8,9 @@
     "scheme": "digitalizacaoapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "permissions": ["CAMERA"],
+    "permissions": [
+      "CAMERA"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -17,8 +19,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "usesCleartextTraffic": true,
       "edgeToEdgeEnabled": true,
-      "permissions": ["CAMERA"]
+      "permissions": [
+        "CAMERA"
+      ],
+      "package": "com.leonardoborghelot.digitalizacaoapp"
     },
     "web": {
       "bundler": "metro",
@@ -39,6 +45,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6e5614b8-fe4d-4350-9f6d-f679beb5c055"
+      }
+    },
+    "owner": "leonardoborghelot"
   }
 }
