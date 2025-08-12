@@ -1,50 +1,90 @@
-# Welcome to your Expo app 👋
+# 📱 Digitalização App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **Projeto desenvolvido por Leonardo Borghelot na Farmácias Erechim**
 
-## Get started
+Aplicativo móvel desenvolvido para otimizar processos de digitalização e gestão de documentos na empresa, proporcionando uma solução eficiente para captura, armazenamento e organização de documentos digitais.
 
-1. Install dependencies
+## 🎯 Sobre o Projeto
 
-   ```bash
-   npm install
-   ```
+Este projeto foi com o objetivo de modernizar e automatizar processos de digitalização de documentos. O aplicativo oferece funcionalidades avançadas de captura de imagens, autenticação segura e integração com sistemas corporativos.
 
-2. Start the app
+### Principais Funcionalidades
 
-   ```bash
-   npx expo start
-   ```
+- 📸 **Captura de Documentos**: Interface otimizada para fotografia de documentos
+- 🔐 **Sistema de Autenticação**: Login seguro com validação de credenciais
+- 📋 **Gestão de Vendas**: Listagem e controle de transações comerciais
+- ☁️ **Upload de Arquivos**: Envio seguro de documentos para servidores corporativos
+- 📱 **Interface Responsiva**: Design adaptável para diferentes dispositivos móveis
 
-In the output, you'll find options to open the app in a
+## 🛠️ Tecnologias Utilizadas
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **React Native** - Framework para desenvolvimento mobile
+- **Expo** - Plataforma de desenvolvimento e build
+- **TypeScript** - Linguagem de programação tipada
+- **React Navigation** - Navegação entre telas
+- **Expo Camera** - Captura de imagens
+- **Axios** - Cliente HTTP para APIs
+- **AsyncStorage** - Armazenamento local de dados
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📋 Pré-requisitos
 
-## Get a fresh project
+- Node.js (versão 18 ou superior)
+- npm ou yarn
+- Expo CLI
+- Dispositivo móvel ou emulador para testes
 
-When you're ready, run:
+## 🚀 Como Executar o Projeto
 
+### 1. Clone o repositório
 ```bash
-npm run reset-project
+git clone https://github.com/LeonardoABorghelot/digitalizacao-app.git
+cd digitalizacao-app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Instale as dependências
+```bash
+npm install
+```
 
-## Learn more
+### 3. Configure as variáveis de ambiente
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+```env
+API_URL=sua_url_da_api
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 4. Execute o projeto
+```bash
+# Iniciar o servidor de desenvolvimento
+npm start
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Ou executar diretamente em uma plataforma específica
+npm run android
+npm run ios
+npm run web
+```
 
-## Join the community
+## 🔧 Scripts Disponíveis
 
-Join our community of developers creating universal apps.
+- `npm start` - Inicia o servidor de desenvolvimento
+- `npm run android` - Executa no Android
+- `npm run ios` - Executa no iOS
+- `npm run web` - Executa na web
+- `npm run lint` - Executa o linter
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📱 Funcionalidades Detalhadas
+
+### Autenticação
+- Login com credenciais corporativas
+- Armazenamento seguro de tokens
+- Validação de sessão
+
+### Captura de Documentos
+- Interface otimizada para fotografia
+- Controles de qualidade de imagem
+- Preview em tempo real
+
+### Gestão de Vendas
+- Listagem de transações
+- Filtros e busca
+- Detalhes de cada venda
+---
