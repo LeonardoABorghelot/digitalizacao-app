@@ -1,10 +1,23 @@
-// https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
+import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import tseslint from 'typescript-eslint';
 
-module.exports = defineConfig([
-  expoConfig,
+export default [
+  { ignores: ['dist', 'node_modules', 'babel.config.js'] },
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
   {
-    ignores: ['dist/*'],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+    },
   },
-]);
+
+  eslintConfigPrettier,
+];

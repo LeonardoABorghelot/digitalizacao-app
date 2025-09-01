@@ -29,7 +29,7 @@ export const uploadImagem = async ({
     uri: fileUri,
     name: fileName,
     type: 'image/jpeg',
-  }as any);
+  }as ReactNativeFile);
 
   formData.append('cd_vd', cd_vd.toString());
   formData.append('nr_ecf', nr_ecf.toString());
@@ -46,14 +46,13 @@ export const uploadImagem = async ({
       }
     });
 
-    const text = await res.text();
-    try {
-      const json = JSON.parse(text);
-      return res.ok;
-    } catch (e) {
-      console.error('Resposta não é JSON:', text);
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error('Falha no upload:', res.status, text);
       return false;
     }
+
+    return true;
   } catch (err) {
     console.error('Erro ao fazer upload:', err);
     return false;

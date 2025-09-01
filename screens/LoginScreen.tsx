@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useRef, useState } from "react";
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -17,7 +17,7 @@ const LoginScreen = () => {
   const [error, setError] = useState('');
   const [secure, setSecure] = useState(true);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Login'>>();
-  const passwordRef = useRef<any>(null);
+  const passwordRef = useRef<TextInput | null>(null);
 
   const handleLogin = async () => {
     setLoading(true);
@@ -26,7 +26,7 @@ const LoginScreen = () => {
       const token = await login(cdFun, password);
       await storeToken(token);
       navigation.navigate('Vendas');
-    } catch (error) {
+    } catch {
       setError('Código ou senha inválidos');
     } finally {
       setLoading(false);
@@ -48,7 +48,7 @@ const LoginScreen = () => {
           onChangeText={setCdFun}
           autoCapitalize="none"
           returnKeyType="next"
-          onSubmitEditing={() => passwordRef.current.focus()}
+          onSubmitEditing={() => passwordRef.current?.focus()}
           disabled={loading}
         />
         <Input
