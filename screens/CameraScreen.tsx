@@ -28,14 +28,22 @@ export default function CameraScreen() {
 
   const navigation = useNavigation();
   const route = useRoute<CameraRouteProp>();
-  const { cd_vd, nr_ecf, dt_vd } = route.params;
+  const { cd_vd, nr_ecf, dt_vd, modo = 'inicial' } = route.params; 
 
   if (!permission) return <View />;
   if (!permission.granted) {
     return (
       <View style={styles.container}>
         <Text style={styles.message}>Precisamos da sua permissão para usar a câmera</Text>
-        <TouchableOpacity onPress={requestPermission} style={{ backgroundColor: '#007bff', padding: 12, borderRadius: 8, marginTop: 16 }}>
+        <TouchableOpacity
+          onPress={requestPermission}
+          style={{
+            backgroundColor: '#007bff',
+            padding: 12,
+            borderRadius: 8,
+            marginTop: 16,
+          }}
+        >
           <Text style={{ color: '#fff', fontSize: 16 }}>Conceder Permissão</Text>
         </TouchableOpacity>
       </View>
@@ -55,10 +63,15 @@ export default function CameraScreen() {
       return;
     }
 
+    if (modo === 'inicial' && photos.length < 3) {
+      Alert.alert('Mínimo de imagens', 'Você precisa digitalizar no mínimo 3 imagens antes de enviar.');
+      return;
+    }
+
     for (let i = 0; i < photos.length; i++) {
       const sucesso = await uploadImagem({
         fileUri: photos[i].uri,
-        fileName: `venda_${cd_vd}_${i + 1}.jpg`,
+        fileName: `imagem_${Date.now()}.jpg`,
         cd_vd,
         nr_ecf,
         dt_vd,
@@ -82,6 +95,7 @@ export default function CameraScreen() {
         facing="back"
         ref={cameraRef}
       />
+
       {/* Modal de visualização ampliada */}
       <Modal
         visible={!!selectedPhoto}
@@ -136,9 +150,15 @@ export default function CameraScreen() {
           activeOpacity={0.7}
         />
         <TouchableOpacity
-          style={[styles.sendButtonAbsolute, { bottom: 18 + (insets.bottom || 0), opacity: photos.length >= 3 ? 1 : 0.5 }]}
+          style={[
+            styles.sendButtonAbsolute,
+            {
+              bottom: 18 + (insets.bottom || 0),
+              opacity: (modo === 'inicial' && photos.length < 3) ? 0.5 : 1,
+            },
+          ]}
           onPress={enviarFotos}
-          disabled={photos.length < 3}
+          disabled={modo === 'inicial' && photos.length < 3}
         >
           <Text style={styles.sendButtonText}>Enviar</Text>
         </TouchableOpacity>

@@ -5,6 +5,7 @@ import { RootStackParamList } from './navigation/types';
 import CameraScreen from './screens/CameraScreen';
 import LoginScreen from './screens/LoginScreen';
 import VendaListScreen from './screens/VendaListScreen';
+import VisualizarImagensScreen from './screens/VisualizarImagemScrem';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,6 +28,11 @@ export default function App() {
           component={CameraScreen}
           options={{ title: 'Camera' }}
         />
+          <Stack.Screen
+            name="ViewImages"
+            component={VisualizarImagensScreen}
+            options={{ title: 'Imagens da Venda' }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );

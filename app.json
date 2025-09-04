@@ -47,6 +47,7 @@
       "typedRoutes": true
     },
     "extra": {
+      "apiUrl": "https://51a8ab3ab99c.ngrok.app",
       "router": {},
       "eas": {
         "projectId": "6e5614b8-fe4d-4350-9f6d-f679beb5c055"

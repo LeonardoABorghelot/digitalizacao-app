@@ -55,13 +55,38 @@ const renderItem = ({ item }: { item: Venda }) => {
     if (item.possui_imagem) {
       Alert.alert(
         'Venda já digitalizada',
-        'Esta venda já possui imagens digitalizadas. Em caso de erro, contate o financeiro a receber.'
+        'O que você deseja fazer?',
+        [
+          {
+            text: 'Visualizar imagens',
+            onPress: () => navigation.navigate('ViewImages', {
+              cd_vd: item.cd_vd,
+              nr_ecf: item.nr_ecf,
+              dt_vd: item.dt_vd,
+            }),
+          },
+          {
+            text: 'Digitalizar nova imagem',
+            onPress: () => navigation.navigate('Camera', {
+              cd_vd: item.cd_vd,
+              nr_ecf: item.nr_ecf,
+              dt_vd: item.dt_vd,
+              modo: 'nova'
+            }),
+          },
+          {
+            text: 'Cancelar',
+            style: 'cancel'
+          }
+        ],
+        { cancelable: true }
       );
     } else {
       navigation.navigate('Camera', {
         cd_vd: item.cd_vd,
         nr_ecf: item.nr_ecf,
         dt_vd: item.dt_vd,
+        modo: 'inicial'
       });
     }
   };

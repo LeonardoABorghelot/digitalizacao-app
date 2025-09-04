@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { RootStackParamList } from '../navigation/types';
 import { login } from '../services/authService';
 import { storeToken } from '../utils/authStorage';
-import { styles } from './LoginScreenStyles';
+import { styles } from './LoginScreen.styles';
 
 const LoginScreen = () => {
   const [cdFun, setCdFun] = useState('');
