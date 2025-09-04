@@ -13,26 +13,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }} 
-        />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Vendas"
           component={VendaListScreen}
           options={{ title: 'Lista de Vendas' }}
         />
-          <Stack.Screen
-          name="Camera"
-          component={CameraScreen}
-          options={{ title: 'Camera' }}
+        <Stack.Screen name="Camera" component={CameraScreen} options={{ title: 'Camera' }} />
+        <Stack.Screen
+          name="ViewImages"
+          component={VisualizarImagensScreen}
+          options={{ title: 'Imagens da Venda' }}
         />
-          <Stack.Screen
-            name="ViewImages"
-            component={VisualizarImagensScreen}
-            options={{ title: 'Imagens da Venda' }}
-          />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles; 
+export default styles;

@@ -1,4 +1,4 @@
-import { API_URL } from '@env';
+import { API_URL } from '../config/api';
 import { getToken } from '../utils/authStorage';
 
 type UploadParams = {
@@ -29,7 +29,7 @@ export const uploadImagem = async ({
     uri: fileUri,
     name: fileName,
     type: 'image/jpeg',
-  }as ReactNativeFile);
+  } as ReactNativeFile);
 
   formData.append('cd_vd', cd_vd.toString());
   formData.append('nr_ecf', nr_ecf.toString());
@@ -42,8 +42,8 @@ export const uploadImagem = async ({
       method: 'POST',
       body: formData,
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!res.ok) {

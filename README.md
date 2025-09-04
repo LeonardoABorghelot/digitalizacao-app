@@ -36,23 +36,28 @@ Este projeto foi com o objetivo de modernizar e automatizar processos de digital
 ## 🚀 Como Executar o Projeto
 
 ### 1. Clone o repositório
+
 ```bash
 git clone https://github.com/LeonardoABorghelot/digitalizacao-app.git
 cd digitalizacao-app
 ```
 
 ### 2. Instale as dependências
+
 ```bash
 npm install
 ```
 
 ### 3. Configure as variáveis de ambiente
+
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
 ```env
 API_URL=sua_url_da_api
 ```
 
 ### 4. Execute o projeto
+
 ```bash
 # Iniciar o servidor de desenvolvimento
 npm start
@@ -74,17 +79,21 @@ npm run web
 ## 📱 Funcionalidades Detalhadas
 
 ### Autenticação
+
 - Login com credenciais corporativas
 - Armazenamento seguro de tokens
 - Validação de sessão
 
 ### Captura de Documentos
+
 - Interface otimizada para fotografia
 - Controles de qualidade de imagem
 - Preview em tempo real
 
 ### Gestão de Vendas
+
 - Listagem de transações
 - Filtros e busca
 - Detalhes de cada venda
+
 ---

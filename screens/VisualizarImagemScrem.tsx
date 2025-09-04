@@ -1,11 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  View
-} from 'react-native';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { RootStackParamList } from '../navigation/types';
 import { buscarImagens } from '../services/imageService';
@@ -53,7 +48,6 @@ const VisualizarImagensScreen = () => {
 
   return (
     <View style={styles.container}>
-      
       <PagerView style={styles.pagerView} initialPage={0}>
         {imagens.map((img, idx) => (
           <View style={styles.page} key={idx}>
@@ -62,9 +56,6 @@ const VisualizarImagensScreen = () => {
               source={{ uri: `data:image/jpeg;base64,${img.imagem_base64}` }}
               style={styles.imagem}
               resizeMode="contain"
-              onError={(e) =>
-                console.log('Erro ao carregar imagem:', e.nativeEvent)
-              }
             />
           </View>
         ))}

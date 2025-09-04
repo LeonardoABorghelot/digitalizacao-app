@@ -43,13 +43,13 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-pager-view": "6.7.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5",
-    "react-native-pager-view": "6.7.1"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -59,7 +59,6 @@
     "eslint-config-expo": "~9.2.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
-    "react-native-dotenv": "^3.4.11",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1"
   },

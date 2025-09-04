@@ -9,7 +9,7 @@ import {
   Platform,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { RootStackParamList } from '../navigation/types';
 import { buscarVendas } from '../services/vendaService';
@@ -45,74 +45,70 @@ const VendaListScreen = () => {
     }
   };
 
-const renderItem = ({ item }: { item: Venda }) => {
-  const itemStyle = [
-    styles.item,
-    item.possui_imagem && styles.itemComImagem
-  ];
+  const renderItem = ({ item }: { item: Venda }) => {
+    const itemStyle = [styles.item, item.possui_imagem && styles.itemComImagem];
 
-  const handlePress = () => {
-    if (item.possui_imagem) {
-      Alert.alert(
-        'Venda já digitalizada',
-        'O que você deseja fazer?',
-        [
-          {
-            text: 'Visualizar imagens',
-            onPress: () => navigation.navigate('ViewImages', {
-              cd_vd: item.cd_vd,
-              nr_ecf: item.nr_ecf,
-              dt_vd: item.dt_vd,
-            }),
-          },
-          {
-            text: 'Digitalizar nova imagem',
-            onPress: () => navigation.navigate('Camera', {
-              cd_vd: item.cd_vd,
-              nr_ecf: item.nr_ecf,
-              dt_vd: item.dt_vd,
-              modo: 'nova'
-            }),
-          },
-          {
-            text: 'Cancelar',
-            style: 'cancel'
-          }
-        ],
-        { cancelable: true }
-      );
-    } else {
-      navigation.navigate('Camera', {
-        cd_vd: item.cd_vd,
-        nr_ecf: item.nr_ecf,
-        dt_vd: item.dt_vd,
-        modo: 'inicial'
-      });
-    }
+    const handlePress = () => {
+      if (item.possui_imagem) {
+        Alert.alert(
+          'Venda já digitalizada',
+          'O que você deseja fazer?',
+          [
+            {
+              text: 'Visualizar imagens',
+              onPress: () =>
+                navigation.navigate('ViewImages', {
+                  cd_vd: item.cd_vd,
+                  nr_ecf: item.nr_ecf,
+                  dt_vd: item.dt_vd,
+                }),
+            },
+            {
+              text: 'Digitalizar nova imagem',
+              onPress: () =>
+                navigation.navigate('Camera', {
+                  cd_vd: item.cd_vd,
+                  nr_ecf: item.nr_ecf,
+                  dt_vd: item.dt_vd,
+                  modo: 'nova',
+                }),
+            },
+            {
+              text: 'Cancelar',
+              style: 'cancel',
+            },
+          ],
+          { cancelable: true },
+        );
+      } else {
+        navigation.navigate('Camera', {
+          cd_vd: item.cd_vd,
+          nr_ecf: item.nr_ecf,
+          dt_vd: item.dt_vd,
+          modo: 'inicial',
+        });
+      }
+    };
+
+    return (
+      <TouchableOpacity style={itemStyle} onPress={handlePress}>
+        <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
+        <Text style={styles.data}>Data: {item.dt_vd}</Text>
+        <Text>Venda: {item.cd_vd}</Text>
+        <Text>Autorização: {item.nr_autorizacao}</Text>
+        <Text style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}>
+          Imagem: {item.possui_imagem ? '✔️ Sim' : '❌ Não'}
+        </Text>
+      </TouchableOpacity>
+    );
   };
-
-  return (
-    <TouchableOpacity
-      style={itemStyle}
-      onPress={handlePress}
-    >
-      <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
-      <Text style={styles.data}>Data: {item.dt_vd}</Text>
-      <Text>Venda: {item.cd_vd}</Text>
-      <Text>Autorização: {item.nr_autorizacao}</Text>
-      <Text style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}>
-        Imagem: {item.possui_imagem ? '✔️ Sim' : '❌ Não'}
-      </Text>
-    </TouchableOpacity>
-  );
-};
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Selecione a data da venda:</Text>
 
       <TouchableOpacity onPress={() => setShowPicker(true)} style={styles.dateBox}>
-        <Text style={{fontWeight: 'bold', fontSize: 16}}>{dataVenda.toLocaleDateString()}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{dataVenda.toLocaleDateString()}</Text>
       </TouchableOpacity>
 
       {showPicker && (

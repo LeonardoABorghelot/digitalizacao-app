@@ -1,5 +1,5 @@
-import { API_URL } from '@env';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import { getToken } from '../utils/authStorage';
 
 export const buscarVendas = async (dt_vd: string) => {
@@ -7,13 +7,13 @@ export const buscarVendas = async (dt_vd: string) => {
 
   const res = await axios.post(
     `${API_URL}/getVendas`,
-    { dt_vd }, 
+    { dt_vd },
     {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
-  return res.data.data; 
+  return res.data.data;
 };

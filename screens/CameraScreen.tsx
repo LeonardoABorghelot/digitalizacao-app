@@ -2,15 +2,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import type { CameraCapturedPicture, CameraView as CameraViewType } from 'expo-camera';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useRef, useState } from 'react';
-import {
-  Alert,
-  Image,
-  Modal,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Alert, Image, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../navigation/types';
@@ -28,7 +20,7 @@ export default function CameraScreen() {
 
   const navigation = useNavigation();
   const route = useRoute<CameraRouteProp>();
-  const { cd_vd, nr_ecf, dt_vd, modo = 'inicial' } = route.params; 
+  const { cd_vd, nr_ecf, dt_vd, modo = 'inicial' } = route.params;
 
   if (!permission) return <View />;
   if (!permission.granted) {
@@ -64,7 +56,10 @@ export default function CameraScreen() {
     }
 
     if (modo === 'inicial' && photos.length < 3) {
-      Alert.alert('Mínimo de imagens', 'Você precisa digitalizar no mínimo 3 imagens antes de enviar.');
+      Alert.alert(
+        'Mínimo de imagens',
+        'Você precisa digitalizar no mínimo 3 imagens antes de enviar.',
+      );
       return;
     }
 
@@ -90,11 +85,7 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.container}>
-      <CameraView
-        style={styles.camera}
-        facing="back"
-        ref={cameraRef}
-      />
+      <CameraView style={styles.camera} facing="back" ref={cameraRef} />
 
       {/* Modal de visualização ampliada */}
       <Modal
@@ -107,7 +98,11 @@ export default function CameraScreen() {
           <TouchableOpacity style={styles.modalCloseArea} onPress={() => setSelectedPhoto(null)} />
           <View style={styles.modalContent}>
             {selectedPhoto && (
-              <Image source={{ uri: selectedPhoto.uri }} style={styles.fullImage} resizeMode="contain" />
+              <Image
+                source={{ uri: selectedPhoto.uri }}
+                style={styles.fullImage}
+                resizeMode="contain"
+              />
             )}
             <TouchableOpacity style={styles.closeButton} onPress={() => setSelectedPhoto(null)}>
               <Text style={styles.closeButtonText}>Fechar</Text>
@@ -123,10 +118,7 @@ export default function CameraScreen() {
             {photos.map((photo, index) => (
               <View key={index} style={styles.previewItem}>
                 <TouchableOpacity onPress={() => setSelectedPhoto(photo)}>
-                  <Image
-                    source={{ uri: photo.uri }}
-                    style={styles.preview}
-                  />
+                  <Image source={{ uri: photo.uri }} style={styles.preview} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.deleteButton}
@@ -154,7 +146,7 @@ export default function CameraScreen() {
             styles.sendButtonAbsolute,
             {
               bottom: 18 + (insets.bottom || 0),
-              opacity: (modo === 'inicial' && photos.length < 3) ? 0.5 : 1,
+              opacity: modo === 'inicial' && photos.length < 3 ? 0.5 : 1,
             },
           ]}
           onPress={enviarFotos}
