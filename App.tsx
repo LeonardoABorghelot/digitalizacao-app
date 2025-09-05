@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { RootStackParamList } from './navigation/types';
-import CameraScreen from './screens/CameraScreen';
-import LoginScreen from './screens/LoginScreen';
-import VendaListScreen from './screens/VendaListScreen';
-import VisualizarImagensScreen from './screens/VisualizarImagemScrem';
+import { RootStackParamList } from './src/navigation/types';
+import CameraScreen from './src/screens/CameraScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import VendaListScreen from './src/screens/VendaListScreen';
+import VisualizarImagensScreen from './src/screens/VisualizarImagemScrem';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
