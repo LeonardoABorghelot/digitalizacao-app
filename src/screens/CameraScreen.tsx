@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { Alert, Image, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ActivityIndicator } from 'react-native';
 import { RootStackParamList } from '../navigation/types';
 import { uploadImagem } from '../services/uploadService';
 import styles from './CameraScreen.styles';
@@ -15,6 +16,7 @@ export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [photos, setPhotos] = useState<CameraCapturedPicture[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<CameraCapturedPicture | null>(null);
+  const [loading, setLoading] = useState(false);
   const cameraRef = useRef<CameraViewType>(null);
   const insets = useSafeAreaInsets();
 
@@ -50,6 +52,8 @@ export default function CameraScreen() {
   };
 
   const enviarFotos = async () => {
+    if (loading) return;
+
     if (photos.length === 0) {
       Alert.alert('Nenhuma imagem capturada.');
       return;
@@ -63,24 +67,32 @@ export default function CameraScreen() {
       return;
     }
 
-    for (let i = 0; i < photos.length; i++) {
-      const sucesso = await uploadImagem({
-        fileUri: photos[i].uri,
-        fileName: `imagem_${Date.now()}.jpg`,
-        cd_vd,
-        nr_ecf,
-        dt_vd,
-      });
+    setLoading(true);
 
-      if (!sucesso) {
-        Alert.alert('Erro ao enviar imagem', `Falha na imagem ${i + 1}`);
-        return;
+    try {
+      for (let i = 0; i < photos.length; i++) {
+        const sucesso = await uploadImagem({
+          fileUri: photos[i].uri,
+          fileName: `imagem_${Date.now()}.jpg`,
+          cd_vd,
+          nr_ecf,
+          dt_vd,
+        });
+
+        if (!sucesso) {
+          Alert.alert('Erro ao enviar imagem', `Falha na imagem ${i + 1}`);
+          return;
+        }
       }
-    }
 
-    Alert.alert('Sucesso', 'Todas as imagens foram enviadas!');
-    setPhotos([]);
-    navigation.goBack();
+      Alert.alert('Sucesso', 'Todas as imagens foram enviadas!');
+      setPhotos([]);
+      navigation.goBack();
+    } catch {
+      Alert.alert('Erro inesperado', 'Não foi possível enviar as imagens.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -141,19 +153,25 @@ export default function CameraScreen() {
           onPress={tirarFoto}
           activeOpacity={0.7}
         />
-        <TouchableOpacity
-          style={[
-            styles.sendButtonAbsolute,
-            {
-              bottom: 18 + (insets.bottom || 0),
-              opacity: modo === 'inicial' && photos.length < 3 ? 0.5 : 1,
-            },
-          ]}
-          onPress={enviarFotos}
-          disabled={modo === 'inicial' && photos.length < 3}
-        >
-          <Text style={styles.sendButtonText}>Enviar</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <View style={[styles.sendButtonAbsolute, { bottom: 18 + (insets.bottom || 0) }]}>
+            <ActivityIndicator size="small" color="#ffffff" />
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={[
+              styles.sendButtonAbsolute,
+              {
+                bottom: 18 + (insets.bottom || 0),
+                opacity: modo === 'inicial' && photos.length < 3 ? 0.5 : 1,
+              },
+            ]}
+            onPress={enviarFotos}
+            disabled={modo === 'inicial' && photos.length < 3}
+          >
+            <Text style={styles.sendButtonText}>Enviar</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
