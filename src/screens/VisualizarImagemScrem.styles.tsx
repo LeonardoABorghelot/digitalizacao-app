@@ -34,6 +34,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    width: '100%',
+  },
+  deleteButton: {
+    backgroundColor: '#dc3545',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
 });
 
 export default styles;
