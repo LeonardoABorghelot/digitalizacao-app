@@ -5,7 +5,7 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { RootStackParamList } from '../navigation/types';
+import { RootStackParamList } from '../navegation/types';
 import { login } from '../services/authService';
 import { storeToken } from '../utils/authStorage';
 import { styles } from './LoginScreen.styles';

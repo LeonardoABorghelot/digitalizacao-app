@@ -3,15 +3,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Platform,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    FlatList,
+    Platform,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
-import { RootStackParamList } from '../navigation/types';
+import { RootStackParamList } from '../navegation/types';
 import { buscarVendas } from '../services/vendaService';
 import styles from './VendaListScreen.styles';
 

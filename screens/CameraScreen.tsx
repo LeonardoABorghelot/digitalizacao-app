@@ -3,17 +3,17 @@ import type { CameraCapturedPicture, CameraView as CameraViewType } from 'expo-c
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useRef, useState } from 'react';
 import {
-  Alert,
-  Image,
-  Modal,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View
+    Alert,
+    Image,
+    Modal,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from '../navigation/types';
+import { RootStackParamList } from '../navegation/types';
 import { uploadImagem } from '../services/uploadService';
 import styles from './CameraScreen.styles';
 

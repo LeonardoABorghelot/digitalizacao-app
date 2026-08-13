@@ -6,7 +6,7 @@ export const buscarVendas = async (dt_vd: string) => {
   const token = await getToken();
 
   const res = await axios.post(
-    `${API_URL}/getVendas`,
+    `${API_URL}/getSales`,
     { dt_vd }, 
     {
       headers: {

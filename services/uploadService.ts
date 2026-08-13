@@ -25,7 +25,7 @@ export const uploadImagem = async ({
 
   const formData = new FormData();
 
-  formData.append('imagem', {
+  formData.append('image', {
     uri: fileUri,
     name: fileName,
     type: 'image/jpeg',
