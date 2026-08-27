@@ -12,7 +12,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login"
+      screenOptions={{ headerBackButtonDisplayMode: 'minimal' }}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -21,7 +22,7 @@ export default function App() {
         <Stack.Screen
           name="Vendas"
           component={VendaListScreen}
-          options={{ title: 'Lista de Vendas' }}
+          options={{ title: 'Vendas' }}
         />
           <Stack.Screen
           name="Camera"

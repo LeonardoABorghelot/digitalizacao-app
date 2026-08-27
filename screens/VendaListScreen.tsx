@@ -1,15 +1,15 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    FlatList,
-    Platform,
-    Text,
-    TouchableOpacity,
-    View
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { RootStackParamList } from '../navegation/types';
 import { buscarVendas } from '../services/vendaService';
@@ -31,19 +31,29 @@ const VendaListScreen = () => {
   const [dataVenda, setDataVenda] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const navigation = useNavigation<NavigationProps>();
+  const jaBuscouRef = React.useRef(false);
 
   const buscar = async () => {
     setLoading(true);
     try {
-      const dataFormatada = dataVenda.toISOString().split('T')[0]; // YYYY-MM-DD
+      const dataFormatada = dataVenda.toISOString().split('T')[0];
       const dados = await buscarVendas(dataFormatada);
       setVendas(dados);
+      jaBuscouRef.current = true;
     } catch (err) {
       console.error('Erro ao buscar vendas:', err);
     } finally {
       setLoading(false);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      if (jaBuscouRef.current) {
+        buscar();
+      }
+    }, [dataVenda])
+  );
 
 const renderItem = ({ item }: { item: Venda }) => {
   const itemStyle = [
@@ -120,6 +130,7 @@ const renderItem = ({ item }: { item: Venda }) => {
           value={dataVenda}
           mode="date"
           display={Platform.OS === 'ios' ? 'inline' : 'default'}
+          themeVariant="light"
           onChange={(_, selectedDate) => {
             setShowPicker(false);
             if (selectedDate) setDataVenda(selectedDate);

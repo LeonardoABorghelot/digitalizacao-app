@@ -1,17 +1,18 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 10,
   },
   pagerView: {
     flex: 1,
   },
   page: {
+    flex: 1,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
   imagem: {
     width: width - 32,
-    height: 500,
+    height: height * 0.8, 
     backgroundColor: '#eee',
     borderRadius: 8,
   },
