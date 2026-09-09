@@ -1,7 +1,7 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useCallback, useState } from 'react';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -9,11 +9,11 @@ import {
   Platform,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
-import { RootStackParamList } from '../navegation/types';
-import { buscarVendas } from '../services/vendaService';
-import styles from './VendaListScreen.styles';
+  View,
+} from "react-native";
+import { RootStackParamList } from "../navegation/types";
+import { buscarVendas } from "../services/vendaService";
+import styles from "./VendaListScreen.styles";
 
 type Venda = {
   cd_vd: number;
@@ -23,7 +23,7 @@ type Venda = {
   possui_imagem: boolean;
 };
 
-type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Vendas'>;
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, "Vendas">;
 
 const VendaListScreen = () => {
   const [vendas, setVendas] = useState<Venda[]>([]);
@@ -36,12 +36,12 @@ const VendaListScreen = () => {
   const buscar = async () => {
     setLoading(true);
     try {
-      const dataFormatada = dataVenda.toISOString().split('T')[0];
+      const dataFormatada = dataVenda.toISOString().split("T")[0];
       const dados = await buscarVendas(dataFormatada);
       setVendas(dados);
       jaBuscouRef.current = true;
     } catch (err) {
-      console.error('Erro ao buscar vendas:', err);
+      console.error("Erro ao buscar vendas:", err);
     } finally {
       setLoading(false);
     }
@@ -52,88 +52,94 @@ const VendaListScreen = () => {
       if (jaBuscouRef.current) {
         buscar();
       }
-    }, [dataVenda])
+    }, [dataVenda]),
   );
 
-const renderItem = ({ item }: { item: Venda }) => {
-  const itemStyle = [
-    styles.item,
-    item.possui_imagem && styles.itemComImagem
-  ];
+  const renderItem = ({ item }: { item: Venda }) => {
+    const itemStyle = [styles.item, item.possui_imagem && styles.itemComImagem];
 
-  const handlePress = () => {
-    if (item.possui_imagem) {
-      Alert.alert(
-        'Venda já digitalizada',
-        'O que você deseja fazer?',
-        [
-          {
-            text: 'Visualizar imagens',
-            onPress: () => navigation.navigate('ViewImages', {
-              cd_vd: item.cd_vd,
-              nr_ecf: item.nr_ecf,
-              dt_vd: item.dt_vd,
-            }),
-          },
-          {
-            text: 'Digitalizar nova imagem',
-            onPress: () => navigation.navigate('Camera', {
-              cd_vd: item.cd_vd,
-              nr_ecf: item.nr_ecf,
-              dt_vd: item.dt_vd,
-              modo: 'nova'
-            }),
-          },
-          {
-            text: 'Cancelar',
-            style: 'cancel'
-          }
-        ],
-        { cancelable: true }
-      );
-    } else {
-      navigation.navigate('Camera', {
-        cd_vd: item.cd_vd,
-        nr_ecf: item.nr_ecf,
-        dt_vd: item.dt_vd,
-        modo: 'inicial'
-      });
-    }
+    const handlePress = () => {
+      if (item.possui_imagem) {
+        Alert.alert(
+          "Venda já digitalizada",
+          "O que você deseja fazer?",
+          [
+            {
+              text: "Visualizar imagens",
+              onPress: () =>
+                navigation.navigate("ViewImages", {
+                  cd_vd: item.cd_vd,
+                  nr_ecf: item.nr_ecf,
+                  dt_vd: item.dt_vd,
+                }),
+            },
+            {
+              text: "Digitalizar nova imagem",
+              onPress: () =>
+                navigation.navigate("Camera", {
+                  cd_vd: item.cd_vd,
+                  nr_ecf: item.nr_ecf,
+                  dt_vd: item.dt_vd,
+                  modo: "nova",
+                }),
+            },
+            {
+              text: "Cancelar",
+              style: "cancel",
+            },
+          ],
+          { cancelable: true },
+        );
+      } else {
+        navigation.navigate("Camera", {
+          cd_vd: item.cd_vd,
+          nr_ecf: item.nr_ecf,
+          dt_vd: item.dt_vd,
+          modo: "inicial",
+        });
+      }
+    };
+
+    return (
+      <TouchableOpacity style={itemStyle} onPress={handlePress}>
+        <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
+        <Text style={styles.data}>Data: {item.dt_vd}</Text>
+        <Text>Venda: {item.cd_vd}</Text>
+        <Text>Autorização: {item.nr_autorizacao}</Text>
+        <Text
+          style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}
+        >
+          Imagem: {item.possui_imagem ? "✔️ Sim" : "❌ Não"}
+        </Text>
+      </TouchableOpacity>
+    );
   };
-
-  return (
-    <TouchableOpacity
-      style={itemStyle}
-      onPress={handlePress}
-    >
-      <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
-      <Text style={styles.data}>Data: {item.dt_vd}</Text>
-      <Text>Venda: {item.cd_vd}</Text>
-      <Text>Autorização: {item.nr_autorizacao}</Text>
-      <Text style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}>
-        Imagem: {item.possui_imagem ? '✔️ Sim' : '❌ Não'}
-      </Text>
-    </TouchableOpacity>
-  );
-};
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Selecione a data da venda:</Text>
 
-      <TouchableOpacity onPress={() => setShowPicker(true)} style={styles.dateBox}>
-        <Text style={{fontWeight: 'bold', fontSize: 16}}>{dataVenda.toLocaleDateString()}</Text>
+      <TouchableOpacity
+        onPress={() => setShowPicker(true)}
+        style={styles.dateBox}
+      >
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+          {dataVenda.toLocaleDateString()}
+        </Text>
       </TouchableOpacity>
 
       {showPicker && (
         <DateTimePicker
           value={dataVenda}
           mode="date"
-          display={Platform.OS === 'ios' ? 'inline' : 'default'}
+          display={Platform.OS === "ios" ? "inline" : "default"}
           themeVariant="light"
-          onChange={(_, selectedDate) => {
+          onValueChange={(_, selectedDate) => {
+            setDataVenda(selectedDate);
             setShowPicker(false);
-            if (selectedDate) setDataVenda(selectedDate);
+          }}
+          onDismiss={() => {
+            setShowPicker(false);
           }}
         />
       )}
@@ -149,7 +155,9 @@ const renderItem = ({ item }: { item: Venda }) => {
         keyExtractor={(item) => item.cd_vd.toString()}
         renderItem={renderItem}
         ListEmptyComponent={
-          !loading ? <Text style={{ marginTop: 20 }}>Nenhuma venda encontrada.</Text> : null
+          !loading ? (
+            <Text style={{ marginTop: 20 }}>Nenhuma venda encontrada.</Text>
+          ) : null
         }
       />
     </View>
