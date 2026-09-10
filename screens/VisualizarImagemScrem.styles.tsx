@@ -1,39 +1,62 @@
-import { Dimensions, StyleSheet } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
+
   pagerView: {
     flex: 1,
   },
+
   page: {
     flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
+    width: "100%",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 24,
   },
+
   nome: {
     marginBottom: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
+
   imagem: {
-    width: width - 32,
-    height: height * 0.8, 
-    backgroundColor: '#eee',
+    flex: 1,
+    width: "100%",
+    minHeight: 0,
+    backgroundColor: "#eee",
     borderRadius: 8,
   },
+
+  botaoExcluir: {
+    backgroundColor: "#d32f2f",
+    height: 46,
+    minWidth: 180,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 12,
+    marginBottom: 4,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  textoBotaoExcluir: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
   emptyText: {
     marginTop: 32,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
-    color: 'gray',
+    color: "gray",
   },
 });
 
