@@ -1,125 +1,145 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
+import { colors } from "../theme/colors";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
   },
+
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     padding: 16,
     fontSize: 16,
+    color: colors.text,
   },
+
   camera: {
     flex: 1,
   },
+
   previewContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 170,
     left: 0,
     right: 0,
     paddingVertical: 2,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
     zIndex: 10,
   },
+
   previewScroll: {
     paddingVertical: 2,
     paddingHorizontal: 4,
   },
+
   preview: {
     width: 56,
     height: 56,
     marginHorizontal: 3,
     borderRadius: 6,
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
+
   previewItem: {
-    position: 'relative',
+    position: "relative",
     marginHorizontal: 5,
   },
+
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 2,
     right: 2,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
     borderRadius: 12,
     padding: 2,
     zIndex: 2,
   },
+
   deleteButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
+
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     height: 80,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     zIndex: 20,
   },
+
   captureButtonAbsolute: {
-    position: 'absolute',
-    left: '50%',
+    position: "absolute",
+    left: "50%",
     transform: [{ translateX: -30 }],
     bottom: 10,
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 5,
-    borderColor: '#007bff',
+    borderColor: colors.secondary,
     zIndex: 21,
   },
+
   sendButtonAbsolute: {
-    position: 'absolute',
+    position: "absolute",
     right: 24,
     bottom: 18,
-    backgroundColor: '#28a745',
+    backgroundColor: colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     zIndex: 21,
   },
+
   sendButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
+
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.8)",
+    justifyContent: "center",
+    alignItems: "center",
   },
+
   modalContent: {
-    backgroundColor: '#222',
+    backgroundColor: "#222",
     borderRadius: 10,
     padding: 10,
-    alignItems: 'center',
-    maxWidth: '90%',
-    maxHeight: '80%',
+    alignItems: "center",
+    maxWidth: "90%",
+    maxHeight: "80%",
   },
+
   fullImage: {
     width: 300,
     height: 400,
     borderRadius: 8,
     marginBottom: 16,
   },
+
   closeButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: colors.secondary,
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 6,
   },
+
   closeButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
+
   modalCloseArea: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -127,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles; 
+export default styles;

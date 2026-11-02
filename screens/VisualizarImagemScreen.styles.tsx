@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../theme/colors";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   pagerView: {
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+    color: colors.primary,
   },
 
   imagem: {
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   botaoExcluir: {
-    backgroundColor: "#d32f2f",
+    backgroundColor: colors.danger,
     height: 46,
     minWidth: 180,
     paddingHorizontal: 24,
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
     textAlign: "center",
     fontSize: 16,
-    color: "gray",
+    color: colors.textSecondary,
   },
 });
 

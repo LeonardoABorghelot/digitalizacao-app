@@ -11,7 +11,7 @@ import {
 import PagerView from "react-native-pager-view";
 import { RootStackParamList } from "../navegation/types";
 import { buscarImagens, excluirImagem } from "../services/imageService";
-import styles from "./VisualizarImagemScrem.styles";
+import styles from "./VisualizarImagemScreen.styles";
 
 type RouteProps = RouteProp<RootStackParamList, "ViewImages">;
 

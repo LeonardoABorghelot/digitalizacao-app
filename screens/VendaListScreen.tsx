@@ -1,7 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -19,8 +19,8 @@ type Venda = {
   cd_vd: number;
   dt_vd: string;
   nr_ecf: number;
-  nr_autorizacao: string;
-  possui_imagem: boolean;
+  nome_cliente: string;
+  quantidade_imagens: number;
 };
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, "Vendas">;
@@ -31,86 +31,125 @@ const VendaListScreen = () => {
   const [dataVenda, setDataVenda] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const navigation = useNavigation<NavigationProps>();
-  const jaBuscouRef = React.useRef(false);
-
-  const buscar = async () => {
+  const jaBuscouRef = useRef(false);
+  const buscar = useCallback(async () => {
     setLoading(true);
+
     try {
       const dataFormatada = dataVenda.toISOString().split("T")[0];
       const dados = await buscarVendas(dataFormatada);
+
       setVendas(dados);
       jaBuscouRef.current = true;
-    } catch (err) {
-      console.error("Erro ao buscar vendas:", err);
+    } catch (error) {
+      console.error("Erro ao buscar vendas:", error);
+
+      Alert.alert("Erro", "Não foi possível buscar as vendas.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [dataVenda]);
 
   useFocusEffect(
     useCallback(() => {
       if (jaBuscouRef.current) {
-        buscar();
+        void buscar();
       }
-    }, [dataVenda]),
+    }, [buscar]),
   );
 
   const renderItem = ({ item }: { item: Venda }) => {
-    const itemStyle = [styles.item, item.possui_imagem && styles.itemComImagem];
+    const quantidadeImagens = Number(item.quantidade_imagens) || 0;
+    const digitalizacaoCompleta = quantidadeImagens >= 3;
+    const digitalizacaoIncompleta =
+      quantidadeImagens > 0 && quantidadeImagens < 3;
+
+    const itemStyle = [
+      styles.item,
+
+      digitalizacaoCompleta && styles.itemComImagem,
+
+      digitalizacaoIncompleta && styles.itemImagemIncompleta,
+    ];
+
+    let textoStatus = "❌ Não digitalizada";
+    let estiloStatus = styles.textoVermelho;
+
+    if (digitalizacaoCompleta) {
+      textoStatus = `✔️ Completa (${quantidadeImagens} imagens)`;
+
+      estiloStatus = styles.textoVerde;
+    } else if (digitalizacaoIncompleta) {
+      textoStatus = `⚠️ Incompleta (${quantidadeImagens}/3 imagens)`;
+
+      estiloStatus = styles.textoAmarelo;
+    }
+
+    const abrirCamera = () => {
+      navigation.navigate("Camera", {
+        cd_vd: item.cd_vd,
+        nr_ecf: item.nr_ecf,
+        dt_vd: item.dt_vd,
+        modo: quantidadeImagens === 0 ? "inicial" : "nova",
+      });
+    };
+
+    const visualizarImagens = () => {
+      navigation.navigate("ViewImages", {
+        cd_vd: item.cd_vd,
+        nr_ecf: item.nr_ecf,
+        dt_vd: item.dt_vd,
+      });
+    };
 
     const handlePress = () => {
-      if (item.possui_imagem) {
-        Alert.alert(
-          "Venda já digitalizada",
-          "O que você deseja fazer?",
-          [
-            {
-              text: "Visualizar imagens",
-              onPress: () =>
-                navigation.navigate("ViewImages", {
-                  cd_vd: item.cd_vd,
-                  nr_ecf: item.nr_ecf,
-                  dt_vd: item.dt_vd,
-                }),
-            },
-            {
-              text: "Digitalizar nova imagem",
-              onPress: () =>
-                navigation.navigate("Camera", {
-                  cd_vd: item.cd_vd,
-                  nr_ecf: item.nr_ecf,
-                  dt_vd: item.dt_vd,
-                  modo: "nova",
-                }),
-            },
-            {
-              text: "Cancelar",
-              style: "cancel",
-            },
-          ],
-          { cancelable: true },
-        );
-      } else {
-        navigation.navigate("Camera", {
-          cd_vd: item.cd_vd,
-          nr_ecf: item.nr_ecf,
-          dt_vd: item.dt_vd,
-          modo: "inicial",
-        });
+      if (quantidadeImagens === 0) {
+        abrirCamera();
+        return;
       }
+
+      const titulo = digitalizacaoCompleta
+        ? "Venda digitalizada"
+        : "Digitalização incompleta";
+
+      const mensagem = digitalizacaoCompleta
+        ? "O que você deseja fazer?"
+        : `Esta venda possui ${quantidadeImagens} de 3 imagens obrigatórias.`;
+
+      Alert.alert(
+        titulo,
+        mensagem,
+        [
+          {
+            text: "Visualizar imagens",
+            onPress: visualizarImagens,
+          },
+          {
+            text: digitalizacaoCompleta
+              ? "Digitalizar nova imagem"
+              : "Adicionar imagem",
+            onPress: abrirCamera,
+          },
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+        ],
+        {
+          cancelable: true,
+        },
+      );
     };
 
     return (
       <TouchableOpacity style={itemStyle} onPress={handlePress}>
         <Text style={styles.nr_ecf}>Cupom {item.nr_ecf}</Text>
+
         <Text style={styles.data}>Data: {item.dt_vd}</Text>
-        <Text>Venda: {item.cd_vd}</Text>
-        <Text>Autorização: {item.nr_autorizacao}</Text>
-        <Text
-          style={item.possui_imagem ? styles.textoVerde : styles.textoVermelho}
-        >
-          Imagem: {item.possui_imagem ? "✔️ Sim" : "❌ Não"}
-        </Text>
+
+        <Text>Cliente: {item.nome_cliente}</Text>
+
+        <Text style={estiloStatus}>Digitalização: {textoStatus}</Text>
       </TouchableOpacity>
     );
   };
@@ -123,7 +162,12 @@ const VendaListScreen = () => {
         onPress={() => setShowPicker(true)}
         style={styles.dateBox}
       >
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 16,
+          }}
+        >
           {dataVenda.toLocaleDateString()}
         </Text>
       </TouchableOpacity>
@@ -144,11 +188,22 @@ const VendaListScreen = () => {
         />
       )}
 
-      {/* <Button title="Buscar vendas" onPress={buscar} /> */}
-      <TouchableOpacity style={styles.botaoBuscar} onPress={buscar}>
+      <TouchableOpacity
+        style={styles.botaoBuscar}
+        onPress={buscar}
+        disabled={loading}
+      >
         <Text style={styles.textoBotaoBuscar}>Buscar vendas</Text>
       </TouchableOpacity>
-      {loading && <ActivityIndicator size="large" style={{ marginTop: 20 }} />}
+
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          style={{
+            marginTop: 20,
+          }}
+        />
+      )}
 
       <FlatList
         data={vendas}
@@ -156,7 +211,14 @@ const VendaListScreen = () => {
         renderItem={renderItem}
         ListEmptyComponent={
           !loading ? (
-            <Text style={{ marginTop: 20 }}>Nenhuma venda encontrada.</Text>
+            <Text
+              style={{
+                marginTop: 20,
+                textAlign: "center",
+              }}
+            >
+              Nenhuma venda encontrada.
+            </Text>
           ) : null
         }
       />

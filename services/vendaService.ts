@@ -1,19 +1,19 @@
-import { API_URL } from '@env';
-import axios from 'axios';
-import { getToken } from '../utils/authStorage';
+import { API_URL } from "@env";
+import axios from "axios";
+import { getToken } from "../utils/authStorage";
 
 export const buscarVendas = async (dt_vd: string) => {
   const token = await getToken();
 
   const res = await axios.post(
     `${API_URL}/getSales`,
-    { dt_vd }, 
+    { dt_vd },
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    }
+    },
   );
-  return res.data.data; 
+  return res.data.data;
 };
